@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import clientPromise from '../lib/mongodb'
-import { InferGetServerSidePropsType } from 'next'
+import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
   try {
     await clientPromise
     // `await clientPromise` will use the default database passed in the MONGODB_URI
@@ -25,9 +25,11 @@ export async function getServerSideProps(context) {
   }
 }
 
-export default function Home({
-  isConnected,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+type HomeProps = {
+  isConnected: boolean
+}
+
+export default function Home({ isConnected }: HomeProps) {
   return (
     <div className="container">
       <Head>
@@ -54,13 +56,13 @@ export default function Home({
         </p>
 
         <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
+          <a href="./api/list" className="card">
+            <h3>Global Funding Rate &rarr;</h3>
             <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
           <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
+            <h3>Exchanges Funding Rate &rarr;</h3>
             <p>Learn about Next.js in an interactive course with quizzes!</p>
           </a>
 
@@ -68,7 +70,7 @@ export default function Home({
             href="https://github.com/vercel/next.js/tree/canary/examples"
             className="card"
           >
-            <h3>Examples &rarr;</h3>
+            <h3>Exchanges 24h Volume &rarr;</h3>
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
 
@@ -78,7 +80,19 @@ export default function Home({
             rel="noopener noreferrer"
             className="card"
           >
-            <h3>Deploy &rarr;</h3>
+            <h3>Liquidations &rarr;</h3>
+            <p>
+              Instantly deploy your Next.js site to a public URL with Vercel.
+            </p>
+          </a>
+
+          <a
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="card"
+          >
+            <h3>Alarms &rarr;</h3>
             <p>
               Instantly deploy your Next.js site to a public URL with Vercel.
             </p>
