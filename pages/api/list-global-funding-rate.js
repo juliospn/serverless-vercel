@@ -8,8 +8,9 @@ export default async function handler (request, response) {
         const results = await collection
             .find({})
             .project({
-                timestamp:0,
-                globalFundnigRate:0,
+                timestamp:1,
+                globalFundingRate:1,
+                _id: 0 // Remove o campo _id da resposta
             })
             .limit(336)
             .toArray();

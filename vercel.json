@@ -1,0 +1,19 @@
+{
+    "rewrites": [
+        {
+            "source": "/api/list-global-funding-rate",
+            "destination": "/api/list-global-funding-rate"
+        }
+    ],
+    "headers": [
+        {
+            "source": "/api/list-global-funding-rate",
+            "headers": [
+                {
+                    "key": "Access-Control-Allow-Origin",
+                    "value": "*"
+                }
+            ]
+        }
+    ]
+}

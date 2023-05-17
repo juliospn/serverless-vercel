@@ -33,13 +33,13 @@ export default function Home({ isConnected }: HomeProps) {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Bitcoin CounterFlow Strategy Indicators API</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
         <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js with MongoDB!</a>
+          Welcome to the Bitcoin CounterFlow Strategy Indicators API!
         </h1>
 
         {isConnected ? (
@@ -56,46 +56,34 @@ export default function Home({ isConnected }: HomeProps) {
         </p>
 
         <div className="grid">
-          <a href="./api/list" className="card">
-            <h3>Global Funding Rate &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
+          <a href="./api/list-global-funding-rate" className="card">
+            <h3>Global Funding Rate List &rarr;</h3>
+            <p>Get a list of global funding rates for Bitcoin.</p>
           </a>
 
-          <a href="https://nextjs.org/learn" className="card">
+          <a href="./api/last-global-funding-rate" className="card">
+            <h3>Last Global Funding Rate &rarr;</h3>
+            <p>Get the last global funding rate for Bitcoin.</p>
+          </a>
+
+          <a href="./api/exchanges-funding-rate" className="card">
             <h3>Exchanges Funding Rate &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
+            <p>Get funding rates for Bitcoin from various exchanges.</p>
           </a>
 
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className="card"
-          >
+          <a href="./api/volume" className="card">
             <h3>Exchanges 24h Volume &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
+            <p>Get the 24-hour trading volume for Bitcoin on exchanges.</p>
           </a>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card"
-          >
+          <a href="./api/liquidations" className="card">
             <h3>Liquidations &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+            <p>Get information about liquidations in the Bitcoin market.</p>
           </a>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="card"
-          >
+          <a href="./api/alarms" className="card">
             <h3>Alarms &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
+            <p>Set alarms for specific conditions in the Bitcoin market.</p>
           </a>
         </div>
       </main>
@@ -119,6 +107,8 @@ export default function Home({ isConnected }: HomeProps) {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          background-color: #0a0a0a;
+          color: #ffffff;
         }
 
         main {
@@ -133,10 +123,12 @@ export default function Home({ isConnected }: HomeProps) {
         footer {
           width: 100%;
           height: 100px;
-          border-top: 1px solid #eaeaea;
+          border-top: 1px solid #FFBC00;
           display: flex;
           justify-content: center;
           align-items: center;
+          background-color: #FFFFFF;
+          color: #000000;
         }
 
         footer img {
@@ -155,7 +147,7 @@ export default function Home({ isConnected }: HomeProps) {
         }
 
         .title a {
-          color: #0070f3;
+          color: orange;
           text-decoration: none;
         }
 
@@ -186,7 +178,7 @@ export default function Home({ isConnected }: HomeProps) {
         }
 
         code {
-          background: #fafafa;
+          background: #848484;
           border-radius: 5px;
           padding: 0.75rem;
           font-size: 1.1rem;
@@ -199,7 +191,6 @@ export default function Home({ isConnected }: HomeProps) {
           align-items: center;
           justify-content: center;
           flex-wrap: wrap;
-
           max-width: 800px;
           margin-top: 3rem;
         }
@@ -214,6 +205,7 @@ export default function Home({ isConnected }: HomeProps) {
           border: 1px solid #eaeaea;
           border-radius: 10px;
           transition: color 0.15s ease, border-color 0.15s ease;
+          background-color: #1f1f1f;
         }
 
         .card:hover,
@@ -254,6 +246,8 @@ export default function Home({ isConnected }: HomeProps) {
           font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
             Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
             sans-serif;
+          background-color: #0a0a0a;
+          color: #ffffff;
         }
 
         * {
