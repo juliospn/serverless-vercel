@@ -11,7 +11,7 @@ export default async function handler (request, response) {
                 timestamp:0,
                 globalFundnigRate:0,
             })
-            .limit(10)
+            .limit(336)
             .toArray();
 
         response.status(200).json(results);
