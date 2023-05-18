@@ -211,8 +211,7 @@ export default function Home({ isConnected }: HomeProps) {
         .card:hover,
         .card:focus,
         .card:active {
-          color: #0070f3;
-          border-color: #0070f3;
+          border-color: #FF7F00;
         }
 
         .card h3 {

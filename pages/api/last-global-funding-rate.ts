@@ -33,7 +33,7 @@ async function main(): Promise<number> {
     totalVolume += exchangeVolume;
 
     if (exchangeFundingRate !== undefined) {
-      const fundingRateValue = exchangeFundingRate * exchangeVolume;
+      const fundingRateValue = Number(exchangeFundingRate) * exchangeVolume; // Conversão explícita para número
       fundingRateValues[exchange] = fundingRateValue;
     } else {
       console.log(`Exchange ${exchange} não possui taxa de financiamento.`);

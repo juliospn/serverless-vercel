@@ -21,22 +21,23 @@ const exchanges: Exchange[] = [
   { name: 'BinanceUSD', url: 'https://www.binance.com/dapi/v1/ticker/24hr?symbol=BTCUSD_PERP' },
 ];
 
-function getVolume(): Record<string, number> {
+export function getVolume(): Promise<Record<string, number>> {
   const volumeObj: Record<string, number> = {};
 
-  for (const exchange of exchanges) {
-    https.get(exchange.url, (res) => {
-      let data = '';
+  const apiRequests = exchanges.map(exchange => {
+    return new Promise<number>((resolve, reject) => {
+      https.get(exchange.url, (res) => {
+        let data = '';
 
-      res.on('data', (chunk) => {
-        data += chunk;
-      });
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
 
-      res.on('end', () => {
-        const jsonData = JSON.parse(data);
-        let btcVolume = 0;
+        res.on('end', () => {
+          const jsonData = JSON.parse(data);
+          let btcVolume = 0;
 
-        switch (exchange.name) {
+          switch (exchange.name) {
           case 'Deribit':
             btcVolume = jsonData && jsonData.result && jsonData.result[0] ? jsonData.result[0].volume_usd : 0;
             break;
@@ -64,7 +65,7 @@ function getVolume(): Record<string, number> {
             btcVolume = jsonData.tick.trade_turnover;
             break;
           case 'BinanceUSDT':
-            btcVolume = jsonData.quoteVolume;
+            btcVolume = jsonData?.quoteVolume;
             break;
           case 'BinanceUSD':
             btcVolume = jsonData[0]?.volume;
@@ -72,30 +73,31 @@ function getVolume(): Record<string, number> {
         }
 
         volumeObj[exchange.name] = Math.trunc(btcVolume);
-        console.log(`${exchange.name}: $${Math.trunc(btcVolume)}`);
+          resolve(btcVolume);
+        });
+
+      }).on('error', (err) => {
+        reject(err);
       });
-
-    }).on('error', (err) => {
-      console.error(`Error: ${err.message}`);
     });
-  }
+  });
 
-  return volumeObj;
+  return Promise.all(apiRequests)
+    .then(() => volumeObj)
+    .catch((err) => {
+      console.error(`Error: ${err.message}`);
+      throw err;
+    });
 }
 
-getVolume();
-
-export { getVolume };
-
 app.get('/api/volume', async (req, res) => {
-    try {
-      const volume = await getVolume();
+  try {
+    const volume = await getVolume();
+    res.json(volume);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
-      res.json(volume);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-  });
-  
-  export default app;
+export default app;

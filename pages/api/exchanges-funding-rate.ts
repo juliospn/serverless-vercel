@@ -1,11 +1,12 @@
 import https from 'https';
-import express from "express";
+import express from 'express';
+import WebSocket from 'ws';
 
 const app = express();
 
 interface Exchange {
   name: string;
-  url: string;
+  url?: string;
 }
 
 const exchangesF: Exchange[] = [
@@ -18,23 +19,28 @@ const exchangesF: Exchange[] = [
   { name: 'OKXUSD', url: 'https://www.okx.com/api/v5/public/funding-rate?instId=BTC-USD-SWAP' },
   { name: 'Huobi', url: 'https://api.hbdm.com/linear-swap-api/v1/swap_funding_rate?contract_code=BTC-USDT' },
   { name: 'BinanceUSDT', url: 'https://www.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT' },
-  { name: 'BinanceUSD', url: 'https://www.binance.com/dapi/v1/premiumIndex?symbol=BTCUSD_PERP' },
 ];
 
 async function getFundingRate(): Promise<{ [key: string]: string }> {
   const fundingRateObj: { [key: string]: string } = {};
+
+  // Crie uma função auxiliar para lidar com a atualização do funding rate
+  function handleFundingRate(exchange: Exchange, fundingRate: number) {
+    const formattedFundingRate = (fundingRate * 100).toFixed(4);
+    fundingRateObj[exchange.name] = formattedFundingRate;
+    console.log(`${exchange.name}: ${formattedFundingRate}%`);
+  }
+
   const promises = exchangesF.map((exchange) => {
     return new Promise<void>((resolve, reject) => {
+      if (exchange.url) { // Verifique se a propriedade 'url' está definida
       https.get(exchange.url, (res) => {
         let data = '';
-
         res.on('data', (chunk) => {
           data += chunk;
         });
-
         res.on('end', () => {
-          let fundingRate: string;
-
+          let fundingRate: string = '';
           switch (exchange.name) {
             case 'Deribit':
               fundingRate = (parseFloat(JSON.parse(data).result.interest_8h) * 100).toFixed(4);
@@ -60,34 +66,25 @@ async function getFundingRate(): Promise<{ [key: string]: string }> {
             case 'Huobi':
               fundingRate = (parseFloat(JSON.parse(data).data.funding_rate) * 100).toFixed(4);
               break;
-            case 'BTCEX':
-              const btcUSDTPERP = JSON.parse(data).result.find((contract: any) => contract.ticker_id === 'BTC-USDT-PERPETUAL');
-              fundingRate = (parseFloat(btcUSDTPERP.funding_rate) * 100).toFixed(4);
-              break;
             case 'BinanceUSDT':
               fundingRate = (parseFloat(JSON.parse(data).lastFundingRate) * 100).toFixed(4);
               break;
-            case 'BinanceUSD':
-              fundingRate = (parseFloat(JSON.parse(data)[0].lastFundingRate) * 100).toFixed(4);
-              break;
+
             default:
               fundingRate = '';
               break;
           }
-
           fundingRateObj[exchange.name] = fundingRate;
           resolve();
-          // console.log(`${exchange.name}: ${fundingRate}%`);
+          //console.log(`${exchange.name}: ${fundingRate}%`);
         });
-
         res.on('error', (err) => {
           console.error(`Error: ${err.message}`);
           reject(err);
         });
       });
-    });
+    }});
   });
-
   await Promise.all(promises);
   return fundingRateObj;
 }
@@ -97,7 +94,6 @@ export { getFundingRate };
 app.get('/api/exchanges-funding-rate', async (req, res) => {
   try {
     const fundingRate = await getFundingRate();
-
     res.json(fundingRate);
   } catch (err) {
     console.error(err);
