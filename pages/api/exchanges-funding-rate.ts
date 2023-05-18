@@ -19,6 +19,7 @@ const exchangesF: Exchange[] = [
   { name: 'OKXUSD', url: 'https://www.okx.com/api/v5/public/funding-rate?instId=BTC-USD-SWAP' },
   { name: 'Huobi', url: 'https://api.hbdm.com/linear-swap-api/v1/swap_funding_rate?contract_code=BTC-USDT' },
   { name: 'BinanceUSDT', url: 'https://www.binance.com/fapi/v1/premiumIndex?symbol=BTCUSDT' },
+  { name: 'BinanceUSD', url: 'https://www.binance.com/dapi/v1/premiumIndex?symbol=BTCUSD_PERP' }
 ];
 
 async function getFundingRate(): Promise<{ [key: string]: string }> {

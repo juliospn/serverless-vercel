@@ -1,82 +1,59 @@
-## Example app using MongoDB
+## API Readme
 
-[MongoDB](https://www.mongodb.com/) is a general purpose, document-based, distributed database built for modern application developers and for the cloud era. This example will show you how to connect to and use MongoDB as your backend for your Next.js app.
+This API provides various endpoints for accessing data related to Bitcoin counterflow strategy indicators. It utilizes Next.js framework and MongoDB for data storage. Below, you will find information about the API endpoints and how to set up the project.
 
-If you want to learn more about MongoDB, visit the following pages:
+## Endpoints
 
-- [MongoDB Atlas](https://mongodb.com/atlas)
-- [MongoDB Documentation](https://docs.mongodb.com/)
+The API offers the following endpoints:
 
-## Deploy your own
++ Global Funding Rate List - /api/list-global-funding-rate
+Get a list of global funding rates for Bitcoin.
 
-Once you have access to the environment variables you'll need, deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
++ Last Global Funding Rate - /api/last-global-funding-rate
+Get the last global funding rate for Bitcoin.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)
++ Exchanges Funding Rate - /api/exchanges-funding-rate
+Get funding rates for Bitcoin from various exchanges.
 
-## How to use
++ Exchanges 24h Volume - /api/volume
+Get the 24-hour trading volume for Bitcoin on exchanges.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
++ Liquidations - /api/liquidations
+Get information about liquidations in the Bitcoin market.
 
-```bash
-npx create-next-app --example with-mongodb with-mongodb-app
-```
++ Alarms - /api/alarms
+Set alarms for specific conditions in the Bitcoin market.
 
-```bash
-yarn create next-app --example with-mongodb with-mongodb-app
-```
+## Project Setup
 
-```bash
-pnpm create next-app --example with-mongodb with-mongodb-app
-```
+To set up the project, follow the steps below:
 
-## Configuration
+1. Install dependencies:
+Run npm install to install the required dependencies listed in the package.json file.
 
-### Set up a MongoDB database
+2. Configure MongoDB:
+Ensure you have MongoDB installed and running.
+Set the MONGODB_URI environment variable with the connection URI for your MongoDB database.
 
-Set up a MongoDB database either locally or with [MongoDB Atlas for free](https://mongodb.com/atlas).
+3. Start the development server:
 
-### Set up environment variables
+Run npm run dev to start the Next.js development server.
 
-Copy the `env.local.example` file in this directory to `.env.local` (which will be ignored by Git):
+4. Access the API:
+Once the server is running, you can access the API endpoints mentioned above.
 
-```bash
-cp .env.local.example .env.local
-```
+## Additional Notes
 
-Set each variable on `.env.local`:
++ If you're using a different database (e.g., myDatabase) within your MongoDB, you can modify the connection code in the getServerSideProps function in pages/index.js file.
 
-- `MONGODB_URI` - Your MongoDB connection string. If you are using [MongoDB Atlas](https://mongodb.com/atlas) you can find this by clicking the "Connect" button for your cluster.
++ The API relies on the connectToDatabase function in the lib/connectToDatabase.js file to establish a connection with MongoDB.
 
-### Run Next.js in development mode
++ The API utilizes Next.js server-side rendering (SSR) with the getServerSideProps function to fetch data and pass it as props to the Home component in pages/index.js.
 
-```bash
-npm install
-npm run dev
++ The Home component renders a welcome message and provides links to the different API endpoints.
 
-# or
++ The API utilizes the mongodb package for querying the database and retrieving data.
 
-yarn install
-yarn dev
-```
++ In the production environment, the API connects to MongoDB directly. In the development environment, the connection is stored in a global variable to preserve the value across module reloads caused by Hot Module Replacement (HMR).
 
-Your app should be up and running on [http://localhost:3000](http://localhost:3000)! If it doesn't work, post on [GitHub discussions](https://github.com/vercel/next.js/discussions).
-
-You will either see a message stating "You are connected to MongoDB" or "You are NOT connected to MongoDB". Ensure that you have provided the correct `MONGODB_URI` environment variable.
-
-When you are successfully connected, you can refer to the [MongoDB Node.js Driver docs](https://mongodb.github.io/node-mongodb-native/3.4/tutorials/collections/) for further instructions on how to query your database.
-
-## Deploy on Vercel
-
-You can deploy this app to the cloud with [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
-
-#### Deploy Your Local Project
-
-To deploy your local project to Vercel, push it to GitHub/GitLab/Bitbucket and [import to Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example).
-
-**Important**: When you import your project on Vercel, make sure to click on **Environment Variables** and set them to match your `.env.local` file.
-
-#### Deploy from Our Template
-
-Alternatively, you can deploy using our template by clicking on the Deploy button below.
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?project-name=with-mongodb&repository-name=with-mongodb&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-mongodb&integration-ids=oac_jnzmjqM10gllKmSrG0SGrHOH)
+Feel free to explore the code and customize it according to your requirements. If you encounter any issues or have further questions, please let us know.
