@@ -36,7 +36,6 @@ Ensure you have MongoDB installed and running.
 Set the MONGODB_URI environment variable with the connection URI for your MongoDB database.
 
 3. Start the development server:
-
 Run npm run dev to start the Next.js development server.
 
 4. Access the API:
