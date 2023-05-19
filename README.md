@@ -1,5 +1,9 @@
 ## API Readme
 
+<div align="center">
+	<img width=900px src="./assets/serverless-api.png">
+</div><br>
+
 This API provides various endpoints for accessing data related to Bitcoin counterflow strategy indicators. It utilizes Next.js framework and MongoDB for data storage. Below, you will find information about the API endpoints and how to set up the project.
 
 ## Endpoints

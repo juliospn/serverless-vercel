@@ -51,10 +51,6 @@ export default function Home({ isConnected }: HomeProps) {
           </h2>
         )}
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
         <div className="grid">
           <a href="./api/list-global-funding-rate" className="card">
             <h3>Global Funding Rate List &rarr;</h3>
