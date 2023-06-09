@@ -53,8 +53,8 @@ export default function Home({ isConnected }: HomeProps) {
 
         <div className="grid">
           <a href="./api/list-global-funding-rate" className="card">
-            <h3>Global Funding Rate List &rarr;</h3>
-            <p>Get a list of global funding rates for Bitcoin.</p>
+            <h3>Global Funding Rate History &rarr;</h3>
+            <p>Get the History of global funding rates for Bitcoin.</p>
           </a>
 
           <a href="./api/last-global-funding-rate" className="card">
